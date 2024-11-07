@@ -11,10 +11,10 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        CreateEmptyBox();
+        CreateEmptySquare();
     }
 
-    private void CreateEmptyBox()
+    private void CreateEmptySquare()
     {
         if (tilePrefab != null)
         {
@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour
                 for (int w = 0; w < width; w++)
                 {
                     Transform tile = Instantiate(tilePrefab, new Vector3(h, w, 0), quaternion.identity);
-                    tile.name = "x " + h.ToString() + " , " + " w" + w.ToString();
+                    tile.name = "x " + h.ToString() + " , " + " y " + w.ToString();
                     tile.parent = transform;
                 }
             }
