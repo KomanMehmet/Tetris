@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private BoardManager boardManager;
-
     private ShapeManager _activeShape;
 
     [Space(10)]
@@ -16,26 +14,20 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        if (SpawnerManager.Instance == null)
+        if (!SpawnerManager.Instance)
         {
             print("SpawnManager örneği sahnede bununamadı.");
-            return;
-        }
-
-        if (_activeShape)
-        {
-            print("ShapeManager örneği oluşturulamadı.");
             return;
         }
         
         _activeShape = SpawnerManager.Instance.CreateRandomShape();
             
-        _activeShape.transform.position = ConvertVectorToInt(_activeShape.transform.position);
+        _activeShape.transform.position = BoardManager.Instance.ConvertVectorToInt(_activeShape.transform.position);
     }
 
     private void Update()
     {
-        if (!boardManager || !SpawnerManager.Instance)
+        if (!BoardManager.Instance || !SpawnerManager.Instance)
         {
             return;
         }
@@ -47,14 +39,19 @@ public class GameManager : MonoBehaviour
             if (_activeShape)
             {
                 _activeShape.MoveDown();
+                
+                BoardManager.Instance.SnapToGrid(_activeShape);
+
+                if (!BoardManager.Instance.IsPositionInLimits(_activeShape))
+                {
+                    _activeShape.MoveUp();
+
+                    if (SpawnerManager.Instance)
+                    {
+                        _activeShape = SpawnerManager.Instance.CreateRandomShape();
+                    }
+                }
             }
         }
-
-        
-    }
-
-    private Vector2 ConvertVectorToInt(Vector2 vector)
-    {
-        return new Vector2(Mathf.Round(vector.x), math.round(vector.y));
     }
 }
