@@ -5,31 +5,26 @@ using UnityEngine.Scripting.APIUpdating;
 public class ShapeManager : MonoBehaviour
 {
     [SerializeField] private bool canRotate = true;
-
-    private void Start()
-    {
-        InvokeRepeating("MoveDown", 0f, 0.25f);
-        InvokeRepeating("RotateRight", 0f, 0.25f);
-    }
+    
 
     public void MoveLeft()
     {
-        transform.Translate(Vector3.left);
+        transform.Translate(Vector3.left, Space.World);
     }
     
     public void MoveRight()
     {
-        transform.Translate(-Vector3.right);
+        transform.Translate(-Vector3.right, Space.World);
     }
 
     public void MoveDown()
     {
-        transform.Translate(Vector3.down);
+        transform.Translate(Vector3.down, Space.World);
     }
     
     public void MoveUp()
     {
-        transform.Translate(Vector3.up);
+        transform.Translate(Vector3.up, Space.World);
     }
 
     public void RotateRight()
